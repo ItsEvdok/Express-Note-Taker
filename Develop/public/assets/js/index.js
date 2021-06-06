@@ -1,3 +1,5 @@
+const { Note } = require("../../../db/db.json");
+
 let noteTitle;
 let noteText;
 let saveNoteBtn;
@@ -31,7 +33,7 @@ const getNotes = () =>
     headers: {
       "Content-Type": "application/json",
     },
-  });
+});
 
 const saveNote = (note) =>
   fetch("/api/notes", {
@@ -39,8 +41,11 @@ const saveNote = (note) =>
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(note),
-  });
+    body: JSON.stringify({
+      noteTitle, 
+      noteText,
+    }),
+});
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -48,7 +53,7 @@ const deleteNote = (id) =>
     headers: {
       "Content-Type": "application/json",
     },
-  });
+});
 
 const renderActiveNote = () => {
   hide(saveNoteBtn);

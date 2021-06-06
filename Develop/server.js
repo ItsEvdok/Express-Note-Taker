@@ -1,3 +1,4 @@
+const notes = require("./db/db.json");
 const express = require('express');
 const path = require('path');
 
@@ -17,16 +18,19 @@ app.get("/notes", (req, res) => {
 });
 
 app.get("/api/notes", (req, res) => {
+  let allNotes = notes;
 
+  res.json(allNotes);
 });
 
 app.post("/api/notes", (req, res) => {
-    const note = req.body;
+  let note = notes;
+  note => {
+    notes.title = req.body.noteTitle,
+    note.text = req.body.noteText
+  }
 
-    console.log(note);
-
-    activeNote.push(note);
-    res.json(note);
+  return res.json(note);
 });
 
 app.listen(PORT, () => {
