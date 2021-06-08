@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
 
 const app = express();
@@ -22,15 +23,48 @@ app.get("/api/notes", (req, res) => {
   return res.json(noteData);
 });
 
-app.post("/api/notes", (req, res) => {
-  let newNote = {
-    title: req.body.title,
-    text: req.body.text,
-  };
+function createNote(body, noteArray) {
+  const newNote = body;
 
-  noteData.push(newNote);
+  noteArray.push(newNote);
+  fs.writeFileSync(
+    path.join(__dirname, './db/db.json'),
+    JSON.stringify(noteArray)
+  );
+
+  return newNote;
+}
+
+app.post("/api/notes", (req, res) => {
+  const newNote = createNote(req.body, noteData);
 
   return res.json(newNote);
+});
+
+function deleteNote(id, notesArray) {
+  for (let i = 0; i < notesArray.length; i++) {
+    let note = notesArray[i];
+
+    if (note.id == id) {
+      notesArray.splice(i, 1);
+      fs.writeFileSync(
+        path.join(__dirname, './db/db.json'),
+        JSON.stringify(notesArray, null, 2)
+      );
+
+      break;
+    }
+  }
+}
+
+app.delete('/api/notes/:id', (req, res) => {
+  let id = req.params.id;
+  let notesArray = noteData;
+  deleteNote(id, notesArray);
+
+  console.log(notesArray[1].title);
+
+  res.json(true);
 });
 
 app.listen(PORT, () => {
