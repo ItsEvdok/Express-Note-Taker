@@ -1,5 +1,3 @@
-const { Note } = require("../../../db/db.json");
-
 let noteTitle;
 let noteText;
 let saveNoteBtn;
@@ -36,16 +34,13 @@ const getNotes = () =>
 });
 
 const saveNote = (note) =>
-  fetch("/api/notes", {
-    method: "POST",
+  fetch('/api/notes', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      noteTitle, 
-      noteText,
-    }),
-});
+    body: JSON.stringify(note),
+  });
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {

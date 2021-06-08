@@ -1,36 +1,36 @@
-const notes = require("./db/db.json");
 const express = require('express');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const noteData = require("./db/db.json");
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
+  res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 app.get("/notes", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/notes.html"));
+  res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 
 app.get("/api/notes", (req, res) => {
-  let allNotes = notes;
-
-  res.json(allNotes);
+  return res.json(noteData);
 });
 
 app.post("/api/notes", (req, res) => {
-  let note = notes;
-  note => {
-    notes.title = req.body.noteTitle,
-    note.text = req.body.noteText
-  }
+  let newNote = {
+    title: req.body.title,
+    text: req.body.text,
+  };
 
-  return res.json(note);
+  noteData.push(newNote);
+
+  return res.json(newNote);
 });
 
 app.listen(PORT, () => {
