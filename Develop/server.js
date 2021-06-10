@@ -23,48 +23,14 @@ app.get("/api/notes", (req, res) => {
   return res.json(noteData);
 });
 
-function createNote(body, noteArray) {
-  const newNote = body;
-
-  noteArray.push(newNote);
-  fs.writeFileSync(
-    path.join(__dirname, './db/db.json'),
-    JSON.stringify(noteArray)
-  );
-
-  return newNote;
-}
-
 app.post("/api/notes", (req, res) => {
-  const newNote = createNote(req.body, noteData);
+  const newNote = req.body;
+  const savedNotes = noteData;
 
-  return res.json(newNote);
-});
+  savedNotes.push(newNote);
 
-function deleteNote(id, notesArray) {
-  for (let i = 0; i < notesArray.length; i++) {
-    let note = notesArray[i];
-
-    if (note.id == id) {
-      notesArray.splice(i, 1);
-      fs.writeFileSync(
-        path.join(__dirname, './db/db.json'),
-        JSON.stringify(notesArray, null, 2)
-      );
-
-      break;
-    }
-  }
-}
-
-app.delete('/api/notes/:id', (req, res) => {
-  let id = req.params.id;
-  let notesArray = noteData;
-  deleteNote(id, notesArray);
-
-  console.log(notesArray[1].title);
-
-  res.json(true);
+  fs.writeFileSync("./db/db.json", JSON.stringify(savedNotes));
+  return res.json(savedNotes);
 });
 
 app.listen(PORT, () => {
