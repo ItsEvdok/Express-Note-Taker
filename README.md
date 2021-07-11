@@ -1,6 +1,7 @@
 # Note Taker
 ---
 
+![Screenshot (20)](https://user-images.githubusercontent.com/78257029/125211635-c939ee00-e275-11eb-8e6d-39acb77eb6e3.png)
 
 ## Description
 
