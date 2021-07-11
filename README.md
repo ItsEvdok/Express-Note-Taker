@@ -4,7 +4,7 @@
 
 ## Description
 
-A simple heroku deployed app that lets you make notes, edit them and delete them.
+A simple heroku deployed app that lets you make notes of your choosing to help you throughout the day.
 
 ## Table of Contents
 
